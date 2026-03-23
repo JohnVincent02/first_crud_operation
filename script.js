@@ -5,6 +5,13 @@ const form=document.getElementById("userForm")
 const tableBody=document.getElementById("tableBody")
 const editIndexInput=document.getElementById("editIndex")
 
+if(sessionStorage.getItem("users")){
+    users=JSON.parse(sessionStorage.getItem("users"))
+    console.log(users);
+    displayUsers()
+    
+}
+
 form.addEventListener("submit",(e)=>{
     e.preventDefault()
     // get name & email
@@ -22,11 +29,12 @@ else{
 }
         form.reset()
         console.log(users);
+        sessionStorage.setItem("users",JSON.stringify(users))
         displayUsers()
         
 })
 
-const displayUsers =() =>{
+function displayUsers(){
     tableBody.innerHTML=""
     users.forEach((user, index)=>{
         tableBody.innerHTML +=`<tr>
@@ -58,6 +66,7 @@ const editUser=(index)=>{
 const deleteUser=(index)=>{
     if(confirm("Are you sure, want to delete dat?")){
         users.splice(index,1)
+        sessionStorage.setItem("users",JSON.stringify(users))
         displayUsers()
     }
 }
